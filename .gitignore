@@ -1,3 +1,5 @@
+coverage
+.eslintcache
 node_modules
 dist
 tsconfig.tsbuildinfo

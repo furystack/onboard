@@ -1,1 +1,1 @@
-console.log('alma')
+export * from './exec-async'

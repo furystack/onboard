@@ -1,8 +1,13 @@
 {
-  "name": "@onboard/common",
+  "name": "@furystack/onboard-common",
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
   "author": "Gallay Lajos",
-  "license": "ISC"
+  "license": "ISC",
+  "bin": "./bin/onboard",
+  "dependencies": {
+    "@furystack/inject": "^4.0.26",
+    "@furystack/utils": "^1.1.16"
+  }
 }
