@@ -1,0 +1,60 @@
+# Node.js
+
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+variables:
+  - group: Default Variable Group
+
+trigger:
+  - master
+  - develop
+  - feature/*
+  - release/*
+  - greenkeeper/*
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '12.x'
+    displayName: 'Install Node.js'
+
+  - task: DockerCompose@0
+    displayName: Start services from docker-compose
+    inputs:
+      action: Run services
+      dockerComposeFile: '$(System.DefaultWorkingDirectory)/docker-compose.yml'
+      projectName: $(Build.Repository.Name)
+      detached: true
+      buildImages: true
+
+  - script: yarn install
+    displayName: 'Install dependencies'
+  - script: yarn lint
+    displayName: 'Lint'
+  - script: yarn build
+    displayName: 'Build'
+
+  - script: yarn test
+    timeoutInMinutes: 5
+    displayName: 'Yarn test'
+  - script: bash <(curl -s https://codecov.io/bash)
+    displayName: 'Publish test results to Codecov'
+
+  - task: PublishCodeCoverageResults@1
+    displayName: 'Publish test coverage results'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(System.DefaultWorkingDirectory)/coverage/*coverage.xml'
+      reportDirectory: '$(System.DefaultWorkingDirectory)/coverage'
+
+  - task: PublishTestResults@2
+    displayName: Publish test results
+    condition: succeededOrFailed()
+    inputs:
+      testRunner: JUnit
+      testResultsFiles: '$(System.DefaultWorkingDirectory)/coverage/junit.xml'

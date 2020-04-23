@@ -1,0 +1,8 @@
+{
+  "name": "@onboard/common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "author": "Gallay Lajos",
+  "license": "ISC"
+}

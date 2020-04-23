@@ -1,0 +1,58 @@
+{
+  "name": "@onboard/root",
+  "version": "0.0.1",
+  "main": "dist/index.js",
+  "author": "Gallay Lajos",
+  "license": "ISC",
+  "private": true,
+  "scripts": {
+    "build": "tsc -b",
+    "lint": "eslint . --ext .tsx,.ts --cache",
+    "clean": "rimraf */dist tsconfig.tsbuildinfo */tsconfig.tsbuildinfo",
+    "test": "jest"
+  },
+  "workspaces": {
+    "packages": [
+      "app",
+      "cli",
+      "common"
+    ]
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^2.21.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-cypress": "^2.7.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsdoc": "^24.0.0",
+    "eslint-plugin-prettier": "^3.1.1",
+    "husky": "^4.0.6",
+    "lint-staged": "^10.0.3",
+    "prettier": "^2.0.1",
+    "jest": "^25.4.0",
+    "jest-junit": "^10.0.0"
+  },
+  "jest-junit": {
+    "suiteName": "Onboard Jest tests",
+    "outputDirectory": "./coverage"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.{ts,tsx}": [
+      "eslint --ext .tsx,.ts --cache --fix",
+      "prettier --write",
+      "git add"
+    ],
+    "*.{js,jsx}": [
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
