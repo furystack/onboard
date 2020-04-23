@@ -1,0 +1,366 @@
+{
+  "$ref": "#/definitions/Entities",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "BowerInstall": {
+      "additionalProperties": false,
+      "description": "Install dependencies with Bower",
+      "properties": {
+        "path": {
+          "description": "Optional path (relative to the service root)",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "BowerInstall"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "DockerCommand": {
+      "additionalProperties": false,
+      "description": "Executes a custom Docker command",
+      "properties": {
+        "command": {
+          "description": "The command itself (e.g.: 'cp alma.zip')",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "DockerCommand"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "command"
+      ],
+      "type": "object"
+    },
+    "DockerComposeUp": {
+      "additionalProperties": false,
+      "description": "Executes a Docker Compose UP command",
+      "properties": {
+        "composeFile": {
+          "description": "The Compose file path and name (relative to the INPUT root directory)",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "DockerComposeUp"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "composeFile"
+      ],
+      "type": "object"
+    },
+    "DockerInstall": {
+      "additionalProperties": false,
+      "description": "Installs a Docker image",
+      "properties": {
+        "imageName": {
+          "description": "The name (and version) of the Docker image (e.g.: 'nginx:latest')",
+          "type": "string"
+        },
+        "portMappings": {
+          "description": "An optional list of port mappings",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "destination": {
+                "type": "number"
+              },
+              "source": {
+                "type": "number"
+              },
+              "type": {
+                "enum": [
+                  "TCP",
+                  "UDP"
+                ],
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "destination",
+              "type"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        },
+        "type": {
+          "enum": [
+            "DockerInstall"
+          ],
+          "type": "string"
+        },
+        "volumeMappings": {
+          "description": "An optional list of volume mappings",
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "destination": {
+                "type": "string"
+              },
+              "source": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "source",
+              "destination"
+            ],
+            "type": "object"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "type",
+        "imageName"
+      ],
+      "type": "object"
+    },
+    "DownloadInputFile": {
+      "additionalProperties": false,
+      "description": "Downloads a file from a specific location",
+      "properties": {
+        "destination": {
+          "description": "The destination path and file name (relative to the INPUT root)",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "DownloadInputFile"
+          ],
+          "type": "string"
+        },
+        "url": {
+          "description": "A full URL to download from",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "url",
+        "destination"
+      ],
+      "type": "object"
+    },
+    "Entities": {
+      "$ref": "#/definitions/Workspace"
+    },
+    "GitClone": {
+      "additionalProperties": false,
+      "description": "Clones a specified GIT repository into",
+      "properties": {
+        "branch": {
+          "description": "Optional branch",
+          "type": "string"
+        },
+        "onExists": {
+          "description": "What should happen if the cloned repository already exists?",
+          "enum": [
+            "fail",
+            "pull",
+            "stash-and-pull",
+            "ignore"
+          ],
+          "type": "string"
+        },
+        "repository": {
+          "description": "The full repository URL (https or ssh)",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "GitClone"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "repository"
+      ],
+      "type": "object"
+    },
+    "MongoRestore": {
+      "additionalProperties": false,
+      "description": "Restores a MongoDB Database using 'mongorestore'",
+      "properties": {
+        "dbName": {
+          "description": "The Database name",
+          "type": "string"
+        },
+        "drop": {
+          "description": "Drops each collection before import",
+          "type": "boolean"
+        },
+        "dumpPath": {
+          "description": "Relative (to the input directory) path to the dump folder",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "MongoRestore"
+          ],
+          "type": "string"
+        },
+        "uri": {
+          "description": "An optional mongodb uri string (e.g. mongodb://localhost:123456)",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "dbName",
+        "dumpPath"
+      ],
+      "type": "object"
+    },
+    "NpmInstall": {
+      "additionalProperties": false,
+      "description": "Executes an NPM Install command",
+      "properties": {
+        "path": {
+          "description": "Optional relative (to the service root) path where the install should be triggered",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "NpmInstall"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "type": "object"
+    },
+    "NpmScript": {
+      "additionalProperties": false,
+      "description": "Executes an NPM script (e.g. 'npm run build')",
+      "properties": {
+        "path": {
+          "description": "Relative (to the service root) path where the script should be started",
+          "type": "string"
+        },
+        "scriptName": {
+          "description": "The script name (e.g. 'build' in the case of 'npm run build')",
+          "type": "string"
+        },
+        "type": {
+          "enum": [
+            "NpmScript"
+          ],
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "scriptName"
+      ],
+      "type": "object"
+    },
+    "Process": {
+      "anyOf": [
+        {
+          "$ref": "#/definitions/GitClone"
+        },
+        {
+          "$ref": "#/definitions/MongoRestore"
+        },
+        {
+          "$ref": "#/definitions/DockerInstall"
+        },
+        {
+          "$ref": "#/definitions/NpmInstall"
+        },
+        {
+          "$ref": "#/definitions/NpmScript"
+        },
+        {
+          "$ref": "#/definitions/BowerInstall"
+        },
+        {
+          "$ref": "#/definitions/DownloadInputFile"
+        },
+        {
+          "$ref": "#/definitions/DockerComposeUp"
+        },
+        {
+          "$ref": "#/definitions/DockerCommand"
+        }
+      ]
+    },
+    "ProcessList": {
+      "items": {
+        "$ref": "#/definitions/Process"
+      },
+      "type": "array"
+    },
+    "Service": {
+      "additionalProperties": false,
+      "properties": {
+        "install": {
+          "$ref": "#/definitions/ProcessList"
+        },
+        "name": {
+          "type": "string"
+        },
+        "run": {
+          "$ref": "#/definitions/ProcessList"
+        },
+        "update": {
+          "$ref": "#/definitions/ProcessList"
+        }
+      },
+      "required": [
+        "name",
+        "install"
+      ],
+      "type": "object"
+    },
+    "Workspace": {
+      "additionalProperties": false,
+      "properties": {
+        "inputDirectory": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "outputDirectory": {
+          "type": "string"
+        },
+        "services": {
+          "items": {
+            "$ref": "#/definitions/Service"
+          },
+          "type": "array"
+        }
+      },
+      "required": [
+        "name",
+        "inputDirectory",
+        "outputDirectory",
+        "services"
+      ],
+      "type": "object"
+    }
+  }
+}

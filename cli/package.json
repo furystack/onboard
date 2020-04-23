@@ -3,8 +3,13 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "bin": "./bin/onboard",
   "scripts": {
+    "run": "./bin/onboard",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "ajv": "^6.12.2"
   },
   "author": "",
   "license": "ISC"
