@@ -1,12 +1,10 @@
 {
-    "compilerOptions": {
-        "outDir": "dist",
-        "composite": true,
-        "rootDir": "src"
-    },
-    "include": [
-        "src"
-    ],
-    "references": [{"path": "../common"}],
-    "extends": "../tsconfig.json"
+  "compilerOptions": {
+    "outDir": "dist",
+    "composite": true,
+    "rootDir": "src"
+  },
+  "include": ["src"],
+  "references": [{ "path": "../common" }],
+  "extends": "../tsconfig.json"
 }
