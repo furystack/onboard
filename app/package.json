@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "install-wsl": "yarn install && yarn remove electron && export npm_config_platform=win32 && yarn add electron && unset npm_config_platform",
+    "start": "electron ./dist/main.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "electron": "^8.2.3"
+    "@furystack/shades": "^3.2.6",
+    "electron": "^8.2.3",
+    "tslib": "^1.11.1"
   }
 }
