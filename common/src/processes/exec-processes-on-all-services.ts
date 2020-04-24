@@ -2,7 +2,6 @@ import '@furystack/logging'
 import { Injector } from '@furystack/inject'
 import Semaphore from 'semaphore-async-await'
 import { CheckPrerequisitesService } from '../check-prerequisites'
-import { Process } from '../models/process'
 import { Workspace, ServiceAction } from '../models'
 import { execProcessOnService } from './exex-processes-on-service'
 
@@ -10,26 +9,20 @@ export const execProcessesOnAllServices = async (options: {
   injector: Injector
   workspace: Workspace
   parallel: number
-  stepFilters?: Array<Process['type']>
   action: ServiceAction
 }) => {
-  const { injector, workspace, parallel, stepFilters, action } = options
+  const { injector, workspace, parallel, action } = options
   const logger = injector.logger.withScope('installAllServices')
   const lock = new Semaphore(parallel)
 
-  const services = workspace.services.filter(
-    (service) =>
-      service.install.filter((step) => (stepFilters && stepFilters.length ? stepFilters.includes(step.type) : true))
-        .length > 0,
-  )
+  const services = workspace.services.filter((service) => service.actions.find((a) => !!(a.name === action)))
 
-  if (!services) {
+  if (!services || !services.length) {
+    logger.verbose({ message: 'No service to install, exiting...' })
     return
   }
 
-  const checks = await injector
-    .getInstance(CheckPrerequisitesService)
-    .checkPrerequisiteForServices({ services, stepFilters })
+  const checks = await injector.getInstance(CheckPrerequisitesService).checkPrerequisiteForServices({ services })
   if (checks.length) {
     logger.error({ message: `Some prerequisites has not been met`, data: { checks } })
     return
@@ -43,18 +36,17 @@ export const execProcessesOnAllServices = async (options: {
         service,
         workdir: workspace.outputDirectory,
         inputDir: workspace.inputDirectory,
-        stepFilters,
         action,
       })
       logger.information({
         message: `Finished service installation: ${service.name}`,
-        data: { service, stepFilters },
+        data: { service },
       })
       lock.release()
     } catch (error) {
       logger.error({
         message: `An error happened during installing the service '${service.name}'`,
-        data: { service, stepFilters, error, errorString: error.toString() },
+        data: { service, error, errorString: error.toString() },
       })
     }
   })

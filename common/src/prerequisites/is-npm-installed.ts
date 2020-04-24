@@ -1,8 +1,10 @@
 import { Prerequisite } from '../check-prerequisites'
 
-export const isNpmInstalled: Prerequisite = async () => {
-  if (!process.env.NPM_TOKEN || !process.env.NPM_TOKEN.length) {
-    return { message: "The 'NPM_TOKEN' env.value has not been set.", success: false }
+export const isNpmInstalled: Prerequisite = async (i) => {
+  try {
+    await i.execAsync('npm --v', {})
+  } catch (error) {
+    return { success: false, message: 'Git has not been found. Have you installed it?' }
   }
   return { success: true }
 }

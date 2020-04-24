@@ -1,8 +1,7 @@
 import { join } from 'path'
 import { Injector } from '@furystack/inject'
-import { Service, ServiceAction } from '../models/service'
+import { Service } from '../models/service'
 import { CheckPrerequisitesService } from '../check-prerequisites'
-import { Process } from '../models/process'
 import { execInstallStep } from './exec-install-step'
 import { getStepDisplayNames } from './get-step-display-names'
 
@@ -15,18 +14,11 @@ export const execProcessOnService = async (options: {
   service: Service
   workdir: string
   inputDir: string
-  stepFilters?: Array<Process['type']>
-  action: ServiceAction
+  action: string
 }) => {
   const logger = options.injector.logger.withScope(`installService/${options.service.name}`)
-
-  const steps = (options.service[options.action] || []).filter((step) =>
-    options.stepFilters && options.stepFilters.length ? options.stepFilters.includes(step.type) : true,
-  )
-
-  const checks = await options.injector
-    .getInstance(CheckPrerequisitesService)
-    .checkPrerequisiteForSteps({ steps, stepFilters: options.stepFilters })
+  const steps = options.service.actions.find((a) => a.name === options.action)?.steps || []
+  const checks = await options.injector.getInstance(CheckPrerequisitesService).checkPrerequisiteForSteps({ steps })
 
   if (checks.length) {
     logger.error({
@@ -68,5 +60,9 @@ export const execProcessOnService = async (options: {
       }
     }
     await installServiceInjector.dispose()
+  } else {
+    logger.information({
+      message: `No steps to execute on service '${options.service.name}' in action '${options.action}', moving forward...`,
+    })
   }
 }

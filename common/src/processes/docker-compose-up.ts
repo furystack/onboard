@@ -1,7 +1,6 @@
 import { join } from 'path'
 import { Injectable, Injector } from '@furystack/inject'
 import { DockerComposeUp } from '../models/process'
-import '../services/exec-async'
 import { isDockerComposeInstalled } from '../prerequisites/is-docker-compose-installed'
 import { ExecInstallContext } from './exec-install-step'
 import { GenericStep } from './generic-step'

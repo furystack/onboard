@@ -1,0 +1,11 @@
+{
+  "name": "Alma",
+  "inputDirectory": "/",
+  "outputDirectory": "/",
+  "services": [
+    {
+      "name": "ExampleService",
+      "actions": [{ "name": "update", "steps": [{ "type": "NpmScript", "scriptName": "test" }] }]
+    }
+  ]
+}

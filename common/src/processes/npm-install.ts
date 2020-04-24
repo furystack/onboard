@@ -1,7 +1,6 @@
 import { join } from 'path'
 import { Injectable, Injector } from '@furystack/inject'
 import { NpmInstall } from '../models/process'
-import '../services/exec-async'
 import { isNpmInstalled } from '../prerequisites/is-npm-installed'
 import { ExecInstallContext } from './exec-install-step'
 import { GenericStep } from './generic-step'

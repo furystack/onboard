@@ -1,7 +1,6 @@
 import { join } from 'path'
 import { Injectable, Injector } from '@furystack/inject'
 import { MongoRestore } from '../models/process'
-import '../services/exec-async'
 import { isMongoToolsInstalled } from '../prerequisites/is-mongo-tools-installed'
 import { ExecInstallContext } from './exec-install-step'
 import { GenericStep } from './generic-step'

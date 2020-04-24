@@ -316,22 +316,32 @@
     "Service": {
       "additionalProperties": false,
       "properties": {
-        "install": {
-          "$ref": "#/definitions/ProcessList"
+        "actions": {
+          "items": {
+            "additionalProperties": false,
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "steps": {
+                "$ref": "#/definitions/ProcessList"
+              }
+            },
+            "required": [
+              "name",
+              "steps"
+            ],
+            "type": "object"
+          },
+          "type": "array"
         },
         "name": {
           "type": "string"
-        },
-        "run": {
-          "$ref": "#/definitions/ProcessList"
-        },
-        "update": {
-          "$ref": "#/definitions/ProcessList"
         }
       },
       "required": [
         "name",
-        "install"
+        "actions"
       ],
       "type": "object"
     },

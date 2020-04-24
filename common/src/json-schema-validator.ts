@@ -1,6 +1,7 @@
 import Ajv, { ValidateFunction } from 'ajv'
 import { Injectable } from '@furystack/inject'
 import JsonSchema from './schemas.json'
+
 const definitionNames = Object.keys(JsonSchema.definitions) as Array<keyof typeof JsonSchema.definitions>
 
 @Injectable()

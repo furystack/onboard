@@ -1,6 +1,5 @@
 import { Injectable, Injector } from '@furystack/inject'
 import { DockerInstall } from '../models/process'
-import '../services/exec-async'
 import { isDockerInstalled } from '../prerequisites/is-docker-installed'
 import { ExecInstallContext } from './exec-install-step'
 import { GenericStep } from './generic-step'

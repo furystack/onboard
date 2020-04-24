@@ -25,18 +25,18 @@ export class CheckPrerequisitesService {
     return errors
   }
 
-  public async checkPrerequisiteForServices(options: { services: Service[]; stepFilters?: Array<Process['type']> }) {
+  public async checkPrerequisiteForServices(options: { services: Service[] }) {
     const steps = options.services
-      .map((service) => service.install)
-      .reduce((prev, current) => [...prev, ...current], [] as Process[])
-    return await this.checkPrerequisiteForSteps({ steps, stepFilters: options.stepFilters })
+      .map((service) => service.actions)
+      .reduce(
+        (prev, current) => [...prev, ...current.reduce((p, s) => [...p, ...s.steps], [] as Process[])],
+        [] as Process[],
+      )
+    return await this.checkPrerequisiteForSteps({ steps })
   }
 
-  public async checkPrerequisiteForSteps(options: { steps: Process[]; stepFilters?: Array<Process['type']> }) {
+  public async checkPrerequisiteForSteps(options: { steps: Process[] }) {
     const prereqs = options.steps
-      .filter((step) =>
-        options.stepFilters && options.stepFilters.length ? options.stepFilters.includes(step.type) : true,
-      )
       .map((step) => getServiceForInstallStep(step, this.injector))
       .map((step) => this.injector.getInstance(step))
       .filter((step) => step.prerequisites && step.prerequisites.length)

@@ -1,12 +1,17 @@
 {
-    "typescript.tsdk": "node_modules/typescript/lib",
-    "editor.formatOnSave": true,
-    "eslint.validate": ["typescript", "typescriptreact"],
-    "eslint.enable": true,
-    "files.watcherExclude": {
-      "**/.git/objects/**": true,
-      "**/.git/subtree-cache/**": true,
-      "**/node_modules/*/**": true
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.formatOnSave": true,
+  "eslint.validate": ["typescript", "typescriptreact"],
+  "eslint.enable": true,
+  "files.watcherExclude": {
+    "**/.git/objects/**": true,
+    "**/.git/subtree-cache/**": true,
+    "**/node_modules/*/**": true
+  },
+  "json.schemas": [
+    {
+      "fileMatch": ["onboard.json"],
+      "url": "./common/src/schemas.json"
     }
-  }
-  
+  ]
+}
