@@ -9,12 +9,12 @@
     "create-schema": "ts-json-schema-generator --tsconfig ./tsconfig.json --path \"./src/models/schema.ts\" --strict-tuples --no-type-check > src/schemas.json"
   },
   "dependencies": {
-    "@furystack/inject": "^4.0.26",
-    "@furystack/logging": "^2.0.33",
-    "@furystack/utils": "^1.1.16",
-    "ajv": "^6.12.2",
-    "got": "^11.0.2",
+    "@furystack/inject": "^4.0.62",
+    "@furystack/logging": "^2.0.69",
+    "@furystack/utils": "^1.2.32",
+    "ajv": "^8.2.0",
+    "got": "^11.8.2",
     "semaphore-async-await": "^1.5.1",
-    "ts-json-schema-generator": "^0.67.1"
+    "ts-json-schema-generator": "^0.91.0"
   }
 }
